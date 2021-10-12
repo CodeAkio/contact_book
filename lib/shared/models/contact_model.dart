@@ -1,24 +1,24 @@
 import 'dart:convert';
 
-const String idColumn = "idColumn";
-const String nameColumn = "nameColumn";
-const String emailColumn = "emailColumn";
-const String phoneColumn = "phoneColumn";
-const String imageColumn = "imageColumn";
+const String idColumn = "id";
+const String nameColumn = "name";
+const String emailColumn = "email";
+const String phoneColumn = "phone";
+const String imageColumn = "image";
 
 class Contact {
   int? id;
-  String name;
-  String email;
-  String phone;
-  String image;
+  String? name;
+  String? email;
+  String? phone;
+  String? image;
 
   Contact({
     this.id,
-    required this.name,
-    required this.email,
-    required this.phone,
-    required this.image,
+    this.name,
+    this.email,
+    this.phone,
+    this.image,
   });
 
   Contact copyWith({

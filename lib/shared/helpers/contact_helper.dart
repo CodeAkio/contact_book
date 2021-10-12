@@ -9,7 +9,7 @@ class ContactHelper {
   static const String nameColumn = "name";
   static const String emailColumn = "email";
   static const String phoneColumn = "phone";
-  static const String imgColumn = "img";
+  static const String imageColumn = "image";
 
   static final ContactHelper _instance = ContactHelper.internal();
 
@@ -41,7 +41,7 @@ class ContactHelper {
             "$nameColumn VARCHAR, "
             "$emailColumn VARCHAR, "
             "$phoneColumn VARCHAR, "
-            "$imgColumn VARCHAR)");
+            "$imageColumn VARCHAR)");
       },
     );
   }
@@ -58,7 +58,7 @@ class ContactHelper {
     Database dbContact = await db;
 
     List<Map<String, dynamic>> maps = await dbContact.query(contactTable,
-        columns: [idColumn, nameColumn, emailColumn, phoneColumn, imgColumn],
+        columns: [idColumn, nameColumn, emailColumn, phoneColumn, imageColumn],
         where: "$idColumn = ?",
         whereArgs: [id]);
 
