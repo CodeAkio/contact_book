@@ -55,6 +55,67 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  _showOptions(BuildContext context, int index) {
+    showModalBottomSheet(
+        context: context,
+        builder: (context) {
+          return BottomSheet(
+              onClosing: () {},
+              builder: (context) {
+                return Container(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: TextButton(
+                          child: const Text(
+                            "Ligar",
+                            style: TextStyle(
+                                color: Colors.blueAccent, fontSize: 20),
+                          ),
+                          onPressed: () {},
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: TextButton(
+                          child: const Text(
+                            "Editar",
+                            style: TextStyle(
+                                color: Colors.blueAccent, fontSize: 20),
+                          ),
+                          onPressed: () {
+                            Navigator.pop(context);
+                            _showContactPage(contact: contacts[index]);
+                          },
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: TextButton(
+                          child: const Text(
+                            "Excluir",
+                            style: TextStyle(
+                                color: Colors.blueAccent, fontSize: 20),
+                          ),
+                          onPressed: () {
+                            helper.deleteContact(contacts[index].id!);
+                            setState(() {
+                              contacts.removeAt(index);
+                              Navigator.pop(context);
+                            });
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              });
+        });
+  }
+
   Widget _contactCard(BuildContext context, int index) {
     return GestureDetector(
       child: Padding(
@@ -97,7 +158,7 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       onTap: () {
-        _showContactPage(contact: contacts[index]);
+        _showOptions(context, index);
       },
     );
   }
