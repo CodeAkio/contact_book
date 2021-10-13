@@ -128,6 +128,7 @@ class _HomePageState extends State<HomePage> {
           child: Row(
             children: [
               Container(
+                margin: const EdgeInsets.fromLTRB(10.0, 10.0, 0.0, 10.0),
                 width: 80,
                 height: 80,
                 decoration: BoxDecoration(
@@ -136,7 +137,8 @@ class _HomePageState extends State<HomePage> {
                       image: contacts[index].image != null
                           ? FileImage(File(contacts[index].image!))
                           : const AssetImage("assets/images/person.png")
-                              as ImageProvider),
+                              as ImageProvider,
+                      fit: BoxFit.cover),
                 ),
               ),
               Padding(
