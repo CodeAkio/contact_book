@@ -4,6 +4,7 @@ import 'package:contact_book/modules/contact/contact_page.dart';
 import 'package:contact_book/shared/helpers/contact_helper.dart';
 import 'package:contact_book/shared/models/contact_model.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key? key}) : super(key: key);
@@ -75,7 +76,10 @@ class _HomePageState extends State<HomePage> {
                             style: TextStyle(
                                 color: Colors.blueAccent, fontSize: 20),
                           ),
-                          onPressed: () {},
+                          onPressed: () {
+                            launch("tel:${contacts[index].phone}");
+                            Navigator.pop(context);
+                          },
                         ),
                       ),
                       Padding(
