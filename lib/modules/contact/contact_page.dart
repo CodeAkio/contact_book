@@ -37,82 +37,115 @@ class _ContactPageState extends State<ContactPage> {
     }
   }
 
+  Future<bool> _requestPop() {
+    if (_userEdited) {
+      showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: const Text("Descartar alterações?"),
+              content: const Text("Se sair as alterações serão perdidas"),
+              actions: [
+                TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: const Text("Cancelar")),
+                TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                      Navigator.pop(context);
+                    },
+                    child: const Text("Sim")),
+              ],
+            );
+          });
+
+      return Future.value(false);
+    } else {
+      return Future.value(true);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(_editedContact!.name ?? "Novo Contato"),
-        centerTitle: true,
-        backgroundColor: Colors.blueAccent,
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          if (_editedContact!.name != null &&
-              _editedContact!.name!.isNotEmpty) {
-            Navigator.pop(context, _editedContact);
-          } else {
-            FocusScope.of(context).requestFocus(_nameFocus);
-          }
-        },
-        child: const Icon(Icons.save),
-        backgroundColor: Colors.blueAccent,
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(10),
-        child: Column(
-          children: [
-            GestureDetector(
-              child: Container(
-                width: 140,
-                height: 140,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  image: DecorationImage(
-                      image: _editedContact!.image != null
-                          ? FileImage(File(_editedContact!.image!))
-                          : const AssetImage("assets/images/person.png")
-                              as ImageProvider,
-                      fit: BoxFit.cover),
+    return WillPopScope(
+      onWillPop: _requestPop,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(_editedContact!.name ?? "Novo Contato"),
+          centerTitle: true,
+          backgroundColor: Colors.blueAccent,
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            if (_editedContact!.name != null &&
+                _editedContact!.name!.isNotEmpty) {
+              Navigator.pop(context, _editedContact);
+            } else {
+              FocusScope.of(context).requestFocus(_nameFocus);
+            }
+          },
+          child: const Icon(Icons.save),
+          backgroundColor: Colors.blueAccent,
+        ),
+        body: SingleChildScrollView(
+          padding: const EdgeInsets.all(10),
+          child: Column(
+            children: [
+              GestureDetector(
+                child: Container(
+                  width: 140,
+                  height: 140,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    image: DecorationImage(
+                        image: _editedContact!.image != null
+                            ? FileImage(File(_editedContact!.image!))
+                            : const AssetImage("assets/images/person.png")
+                                as ImageProvider,
+                        fit: BoxFit.cover),
+                  ),
                 ),
+                onTap: () {},
               ),
-              onTap: () {},
-            ),
-            TextField(
-              controller: _nameController,
-              focusNode: _nameFocus,
-              decoration: const InputDecoration(
-                labelText: "Nome",
-              ),
-              onChanged: (text) {
-                _userEdited = true;
-
-                setState(() {
-                  _editedContact!.name = text;
-                });
-              },
-            ),
-            TextField(
-              controller: _emailController,
-              decoration: const InputDecoration(
-                labelText: "E-mail",
-              ),
-              onChanged: (text) {
-                _userEdited = true;
-                _editedContact!.email = text;
-              },
-              keyboardType: TextInputType.emailAddress,
-            ),
-            TextField(
-                controller: _phoneController,
+              TextField(
+                controller: _nameController,
+                focusNode: _nameFocus,
                 decoration: const InputDecoration(
-                  labelText: "Telefone",
+                  labelText: "Nome",
                 ),
                 onChanged: (text) {
                   _userEdited = true;
-                  _editedContact!.phone = text;
+
+                  setState(() {
+                    _editedContact!.name = text;
+                  });
                 },
-                keyboardType: TextInputType.phone),
-          ],
+              ),
+              TextField(
+                controller: _emailController,
+                decoration: const InputDecoration(
+                  labelText: "E-mail",
+                ),
+                onChanged: (text) {
+                  _userEdited = true;
+                  _editedContact!.email = text;
+                },
+                keyboardType: TextInputType.emailAddress,
+              ),
+              TextField(
+                  controller: _phoneController,
+                  decoration: const InputDecoration(
+                    labelText: "Telefone",
+                  ),
+                  onChanged: (text) {
+                    _userEdited = true;
+                    _editedContact!.phone = text;
+                  },
+                  keyboardType: TextInputType.phone),
+            ],
+          ),
         ),
       ),
     );
